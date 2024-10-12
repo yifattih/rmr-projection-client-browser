@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMR</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Data Entry</h1>
+    <form id="dataForm">
+        <label for="weight">Weight (lbs):</label>
+        <input type="text" id="weight" name="weight" required>
+        <label for="height">Height (inch):</label>
+        <input type="text" id="height" name="height" required>
+        <label for="age">Age (years):</label>
+        <input type="text" id="age" name="age" required>
+        <label for="time">Weeks:</label>
+        <input type="text" id="time" name="time" required>
+        <button type="submit">Calculate</button>
+        <button type="reset">Clear</button>
+    </form>
+
+    <h2>Data Table</h2>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>Weight (lbs)</th>
+                <th>Height (inch)</th>
+                <th>Age (years)</th>
+                <th>Time (weeks)</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</html>

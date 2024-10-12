@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 from helpers.weight import WeightCalculator
-from helpers.basal_metabolic_rate import HarrisBenedictEqs
+from bmr.helpers.equations import HarrisBenedictEqs
 
 class TestBasalMetabolicRate(unittest.TestCase):
 

@@ -1,12 +1,22 @@
 from .helpers.weight import WeightCalculator
 from .helpers.equations import HarrisBenedictEqs
+from .helpers import type_alias
 
+def construct(data: dict[str,
+                        type_alias.number]) -> dict[str,
+                                                    type_alias.number]:
+    data = data.copy()
+    weight_calculator = WeightCalculator(weight_initial=data["weight"],
+                                        time=data["time"])
+    weight_loss_projection = weight_calculator.weight_loss_projection()
+    
+    data.update(weight_calculator.jsonable_results())
 
-def calculate(weight_initial: float, height: float, age: int, time: int, multiplier = 2):
-    weight_calculator = WeightCalculator(w_i=weight_initial, a=multiplier, t=time)
-    time_range = weight_calculator.time_range()
-    weight_change = weight_calculator.weight_change()
-    bmr_calculator = HarrisBenedictEqs(w_change=weight_change, h=height, y=age)
-    bmr = bmr_calculator.men()
-    data = {"time": time_range, "weight": weight_change, "bmr": bmr}
+    basal_metabolic_rate = HarrisBenedictEqs(weight_projection=weight_loss_projection,
+                                            heihgt=data["height"],
+                                            age=data["age"])
+    basal_metabolic_rate.for_men()
+
+    data.update(basal_metabolic_rate.jsonable_results())
+
     return data

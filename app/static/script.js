@@ -15,7 +15,10 @@ $(document).ready(function() {
             url: '/calculate',
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify({ weight: weight, height: height, age: age, time: time }),
+            data: JSON.stringify({ weight: weight,
+                height: height,
+                age: age,
+                time: time }),
             success: function(data) {
                 $('#inputDataTable tbody').empty();
                 data.forEach(item => {

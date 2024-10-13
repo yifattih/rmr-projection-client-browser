@@ -17,9 +17,9 @@ $(document).ready(function() {
             contentType: 'application/json',
             data: JSON.stringify({ weight: weight, height: height, age: age, time: time }),
             success: function(data) {
-                $('#dataTable tbody').empty();
+                $('#inputDataTable tbody').empty();
                 data.forEach(item => {
-                    $('#dataTable tbody').append(`<tr><td>${item.weight}</td><td>${item.height}</td><td>${item.age}</td><td>${item.time}</td></tr>`);
+                    $('#inputDataTable tbody').append(`<tr><td>${item.weight}</td><td>${item.height}</td><td>${item.age}</td><td>${item.time}</td></tr>`);
                 });
             }
         });
@@ -39,7 +39,8 @@ $(document).ready(function() {
             type: 'POST',
             contentType: 'application/json',
             success: function() {
-                $('#dataTable tbody').empty();
+                $('#inputDataTable tbody').empty();
+                $('#outputtDataTable tbody').empty();
             }
         });
     });

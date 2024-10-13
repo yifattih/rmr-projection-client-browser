@@ -1,0 +1,4 @@
+make bmr calculations with bmr module as in main script
+
+show results in html using ajax/jquery
+

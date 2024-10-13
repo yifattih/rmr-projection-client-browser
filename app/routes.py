@@ -22,9 +22,9 @@ def home():
 def get_data():
     return jsonify(data_input)
 
-@app.route('/calculate',
+@app.route('/model-construct',
            methods=['POST'])
-def calculate():
+def model_construct():
     # Get data from AJAX request
     data_in = request.json
     data_in = process_data_in(data=data_in)
@@ -33,19 +33,22 @@ def calculate():
     
     data_input.append(data_in)
     data_output.append(data_out)
-    print(data_output)
 
-    response_data = {
+    response = {
         "message": "Data received!",
         "data_out": data_output,
         "status": "Success!"
         }
 
-    return jsonify(response_data)
+    return jsonify(response)
 
-@app.route('/clear', methods=['POST'])
+@app.route('/reset', methods=['POST'])
 def clear():
     # Get data from AJAX request
     data_input.clear()
+    data_output.clear()
+    
+    response = {"message": "Data cleared!",
+                "status": "success"}
 
-    return jsonify(data_input)
+    return jsonify(response)

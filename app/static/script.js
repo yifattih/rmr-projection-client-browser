@@ -12,17 +12,29 @@ $(document).ready(function() {
         const time = $('#time').val();
 
         $.ajax({
-            url: '/calculate',
+            url: '/model-construct',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({ weight: weight,
                 height: height,
                 age: age,
                 time: time }),
-            success: function(data) {
+            success: function(response) {
+                console.log("Server response")
+                console.log(response)
                 $('#inputDataTable tbody').empty();
-                data.forEach(item => {
+                response.data_out.forEach(item => {
                     $('#inputDataTable tbody').append(`<tr><td>${item.weight}</td><td>${item.height}</td><td>${item.age}</td><td>${item.time}</td></tr>`);
+                    // Loop through data and fill table cells
+                    console.log("Output lenght")
+                    console.log(item.weight_loss_rate_time.length)
+                    for (let i = 0; i < item.weight_loss_rate_time.length; i++) {
+                        const row = $("<tr></tr>");
+                        row.append($("<td></td>").text(item.weight_loss_rate_time[i]));
+                        row.append($("<td></td>").text(item.weight_loss_projection[i]));
+                        row.append($("<td></td>").text(item.bmr[i]));
+                        $("#outputDataTable tbody").append(row);
+                    }
                 });
             }
         });
@@ -38,12 +50,14 @@ $(document).ready(function() {
         event.preventDefault();
         
         $.ajax({
-            url: '/clear',
+            url: '/reset',
             type: 'POST',
             contentType: 'application/json',
-            success: function() {
+            success: function(response) {
+                console.log("Server response")
+                console.log(response)
                 $('#inputDataTable tbody').empty();
-                $('#outputtDataTable tbody').empty();
+                $('#outputDataTable tbody').empty();
             }
         });
     });

@@ -1,35 +1,39 @@
-from flask import render_template, request, jsonify
+from typing import TypeAlias
+from flask import Response, render_template, request, jsonify
 from app import app
 from .bmr import model
-from .bmr.helpers import type_alias
+
+JSONType: TypeAlias = dict[str, str | None]
+number: TypeAlias = int | float
+
 
 # To hold the data for the table on buffer
 data_input = []
 data_output = []
 
-def process_data_in(data: type_alias.JSONType) -> dict[str, str | type_alias.number]:
+def process_data_in(data: JSONType) -> dict[str, str | number]:
     return {"weight": float(data["weight"]),
             "height": float(data["height"]),
             "age": int(data["age"]),
             "time": int(data["time"])}
 
 @app.route('/')
-def home():
+def home() -> str:  
     return render_template('index.html')
 
 @app.route('/data-in',
            methods=['GET'])
-def get_data_in():
+def get_data_in() -> Response:
     return jsonify(data_input)
 
 @app.route('/data-out',
            methods=['GET'])
-def get_data_out():
+def get_data_out() -> Response:
     return jsonify(data_output)
 
 @app.route('/model-construct',
            methods=['POST'])
-def model_construct():
+def model_construct() -> Response:
     # Get data from AJAX request
     data_in = request.json
     data_in = process_data_in(data=data_in)
@@ -48,7 +52,7 @@ def model_construct():
     return jsonify(response)
 
 @app.route('/reset', methods=['POST'])
-def clear():
+def clear() -> Response:
     # Get data from AJAX request
     data_input.clear()
     data_output.clear()

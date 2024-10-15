@@ -10,13 +10,13 @@
     <h1>Data Entry</h1>
     <form id="dataForm">
         <label for="weight">Weight (lbs):</label>
-        <input type="text" id="weight" name="weight" required>
+        <input type="text" id="weight" name="weight" placeholder="weight > 0" required>
         <label for="height">Height (inch):</label>
-        <input type="text" id="height" name="height" required>
+        <input type="text" id="height" name="height" placeholder="height > 0" required>
         <label for="age">Age (years):</label>
-        <input type="text" id="age" name="age" required>
+        <input type="text" id="age" name="age" placeholder="age > 19" required>
         <label for="time">Weeks:</label>
-        <input type="text" id="time" name="time" required>
+        <input type="text" id="time" name="time" placeholder="0 < weeks < 52" required>
         <button type="submit">Calculate</button>
         <button type="reset">Clear</button>
     </form>
@@ -39,9 +39,12 @@
     <table id="outputDataTable">
         <thead>
             <tr>
-                <th>Time (week)</th>
+                <th>Week</th>
                 <th>Weight (lbs)</th>
-                <th>BMR (kcals)</th>
+                <th>Daily BMR to Keep Weight (cal)</th>
+                <th>Daily BMR to Loose 2 Pounds (cal)</th>
+                <th>Weekly BMR to Keep Weight (cal)</th>
+                <th>Weekly BMR to Loose 2 Pounds (cal)</th>
             </tr>
         </thead>
         <tbody>

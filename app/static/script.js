@@ -1,6 +1,6 @@
 $(document).ready(function() {
     // Load existing data
-    loadData();
+    loadDataIn();
 
     // Handle form submission
     $('#dataForm').on('submit', function(event) {
@@ -23,6 +23,7 @@ $(document).ready(function() {
                 console.log("Server response")
                 console.log(response)
                 $('#inputDataTable tbody').empty();
+                $('#outputDataTable tbody').empty();
                 response.data_out.forEach(item => {
                     $('#inputDataTable tbody').append(`<tr><td>${item.weight}</td><td>${item.height}</td><td>${item.age}</td><td>${item.time}</td></tr>`);
                     // Loop through data and fill table cells
@@ -32,7 +33,10 @@ $(document).ready(function() {
                         const row = $("<tr></tr>");
                         row.append($("<td></td>").text(item.weight_loss_rate_time[i]));
                         row.append($("<td></td>").text(item.weight_loss_projection[i]));
-                        row.append($("<td></td>").text(item.bmr[i]));
+                        row.append($("<td></td>").text(item.bmr_daily[i]));
+                        row.append($("<td></td>").text(item.bmr_with_deficit_daily[i]));
+                        row.append($("<td></td>").text(item.bmr_total[i]));
+                        row.append($("<td></td>").text(item.bmr_with_deficit_total[i]));
                         $("#outputDataTable tbody").append(row);
                     }
                 });
@@ -40,10 +44,10 @@ $(document).ready(function() {
         });
         
         // Clear form fields
-        $('#weight').val('');
-        $('#height').val('');
-        $('#age').val('');
-        $('#time').val('');
+        // $('#weight').val('');
+        // $('#height').val('');
+        // $('#age').val('');
+        // $('#time').val('');
     });
 
     $('#dataForm').on('reset', function(event) {
@@ -63,14 +67,21 @@ $(document).ready(function() {
     });
 });
 
-function loadData() {
+function loadDataIn() {
     $.ajax({
-        url: '/data',
+        url: '/data-in',
         type: 'GET',
-        success: function(data) {
-            data.forEach(item => {
+        success: function(data_in) {
+            data_in.forEach(item => {
                 $('#dataTable tbody').append(`<tr><td>${item.weight}</td><td>${item.height}</td><td>${item.age}</td><td>${item.time}</td></tr>`);
             });
         }
     });
+}
+
+function loadDataOut() {
+    $.ajax({
+        url: '/data-out',
+        type: 'GET'
+        })
 }

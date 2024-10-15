@@ -1,65 +1,57 @@
 import numpy as np
 
-class HarrisBenedictEqs:
-    """
-    Class modeling the Harris-Benedict Equations calculator for the Basal
-    Metabolic Rate
-    
-    :param w_r: Weight Loss Rate
-    :type w_r: np.array
-    :param heihgt: height in inches
-    :type heihgt: float
-    :param age: age in years
-    :type age: int
-    """
+class HarrisBenedict:
     def __init__(self,
-                weight_projection: np.ndarray,
-                heihgt: float,
-                age: int) -> None:
-        """
-        Class constructor
+                age: int,
+                height: float,
+                time_projection: np.ndarray,
+                weight_initial: float,
+                weight_loss_rate: float=2,
+                energy_deficit: float=1000) -> None:
 
-        :param w_r: Weight Loss Rate
-        :type w_r: np.array
-        :param heihgt: height in inches
-        :type heihgt: float
-        :param age: age in years
-        :type age: int
-        """
-        assert [_ > 0 for _ in weight_projection], """Weight change values must be positive"""
-        assert heihgt > 0, """Height is a positive physical property"""
-        assert age >= 19, """Age must be 19 or greater"""
+        assert 19 <= age <= 150, ("Height stop chaning probalbly after 19"
+                                "and normally people don't live more than "
+                                "150 year!")
+        assert height >= 0, "Height must be positive"
+        assert time_projection.size != 0, ("Time projection is required. "
+                                        "Calculate with the "
+                                        "time_projection module")
+        assert weight_initial >= 0, "Initial weight must be positive"
+        assert energy_deficit >= 0, "Energy deficit must be positive"
 
-        self.weight_projection = weight_projection
-        self.heihgt = heihgt
         self.age = age
+        self.height = height
+        self.time_projection = time_projection
+        self.weight_initial = weight_initial
+        self.weight_loss_rate = weight_loss_rate
+        self.energy_deficit = energy_deficit
 
-    def for_men(self) -> np.ndarray:
-        """
-        Calculates the Harris-Benedict Equation for men
-
-        :return: Basal Metabolic Rate
-        :rtype: np.ndarray
-        """
-        self.bmr_men = 66.47 + (6.24*self.weight_projection) + (12.7*self.heihgt) - (6.76*self.age)
-        return self.bmr_men
+    def men_eq_in_pounds(self) -> tuple[np.ndarray, np.ndarray]:
+        bmr = (66.47
+               + 6.24*(self.weight_initial
+                       - (self.weight_loss_rate*self.time_projection))
+               + 12.7*self.height
+               - 6.76*self.age)
+        bmr_deficit = bmr - self.energy_deficit
+        return bmr, bmr_deficit
     
-    def for_women(self) -> np.ndarray:
-        """
-        Calculates the Harris-Benedict Equation for men
+    def female_eq_in_pounds(self) -> tuple[np.ndarray, np.ndarray]:
+        bmr = (65.51
+               + 4.34*(self.weight_initial
+                       - (self.weight_loss_rate*self.time_projection))
+               + 4.7*(self.height)
+               - 4.7*(self.age))
+        bmr_deficit = bmr - self.energy_deficit
+        return bmr, bmr_deficit
 
-        :return: Basal Metabolic Rate
-        :rtype: np.ndarray
-        """
-        self.bmr_women = 65.51 + (4.34*self.weight_projection) + (4.7*self.heihgt) - (4.7*self.age)
-        return self.bmr_women
+    def __str__(self) -> str:
+        return (f"Harris-Benedict BMR equations for a {self.age}-years "
+                f"old person with {self.weight_initial}-lbs of weight and "
+                f"{self.height}-inches height. Projection over "
+                f"{self.time_projection}-weeks with an energy deficit "
+                f"of {self.energy_deficit}")
     
-    def jsonable_results(self) -> dict[str, list[float]] | None:
-        if self.bmr_men.size != 0:
-            return {"bmr": self.bmr_men.tolist()}
-        elif self.bmr_women.size != 0:
-            return {"bmr": self.bmr_women.tolist()}
-
-
-class MifflinStJeorEq:
-    pass
+    def __repr__(self) -> str:
+        return (f"HarrisBenedict({self.age}, {self.height}, "
+                f"{self.weight_initial}, {self.time_projection}, "
+                f"{self.energy_deficit})")

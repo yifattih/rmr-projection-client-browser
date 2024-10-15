@@ -1,5 +1,5 @@
 from .helpers.weight import WeightCalculator
-from .helpers.equations import HarrisBenedictEqs
+from .helpers.not_in_use_equations import HarrisBenedictEqs
 from .helpers import type_alias
 
 def construct(data: dict[str,

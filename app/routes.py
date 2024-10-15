@@ -7,7 +7,7 @@ from .bmr.helpers import type_alias
 data_input = []
 data_output = []
 
-def process_data_in(data: type_alias.JSONType) -> dict[str, type_alias.number]:
+def process_data_in(data: type_alias.JSONType) -> dict[str, str | type_alias.number]:
     return {"weight": float(data["weight"]),
             "height": float(data["height"]),
             "age": int(data["age"]),
@@ -17,10 +17,15 @@ def process_data_in(data: type_alias.JSONType) -> dict[str, type_alias.number]:
 def home():
     return render_template('index.html')
 
-@app.route('/data',
+@app.route('/data-in',
            methods=['GET'])
-def get_data():
+def get_data_in():
     return jsonify(data_input)
+
+@app.route('/data-out',
+           methods=['GET'])
+def get_data_out():
+    return jsonify(data_output)
 
 @app.route('/model-construct',
            methods=['POST'])
@@ -35,9 +40,9 @@ def model_construct():
     data_output.append(data_out)
 
     response = {
-        "message": "Data received!",
-        "data_out": data_output,
-        "status": "Success!"
+        "message": "Data processed!",
+        "status": "Success!",
+        "data_out": data_output
         }
 
     return jsonify(response)

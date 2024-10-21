@@ -10,7 +10,7 @@ html {
 * {
     border-style: solid;
     border-color: red;
-    border-width: 1px;
+    border-width: 0.5px;
 }
 
 :root {
@@ -93,9 +93,13 @@ aside h3 {
     font-size: var(--font-subsubtitles);
     font-weight: var(--font-weight-subsubtitle);
     text-transform: uppercase;
+    text-align: center;
     margin-bottom: 1rem;
 }
 
+/* /////////////////////////////////////////////////////////////// */
+/* ///////////////// Section Body Physical Data ///////////////// */
+/* /////////////////////////////////////////////////////////////// */
 aside #section-body-physical-data {
     font-size: var(--font-normal);
     font-weight: var(--font-weight--normal);
@@ -103,22 +107,10 @@ aside #section-body-physical-data {
     display: grid;
     grid-template-columns: 40% 30% 30%;
     grid-template-areas: 
-    "label-sex label-sex select-sex"
+    "label-sex select-sex select-sex"
     "label-age input-age unit-age"
     "label-weight input-weight unit-weight"
-    "label-height input-height unit-height"
-    ;
-}
-
-/* /////////////////////////////////////////////////////////////// */
-/* ///////////////// Section Body Physical Data ///////////////// */
-/* /////////////////////////////////////////////////////////////// */
-section label#label-sex {
-    grid-area: label-sex;
-}
-
-section select#select-sex {
-    grid-area: select-sex;
+    "label-height input-height unit-height";
 }
 
 section label#label-sex,
@@ -132,22 +124,39 @@ section label#label-weight-unit {
     margin-bottom: var(--form-items-margin-bottom);
 }
 
-section label#label-sex {
-    width: 12.75rem;
-}
-
+section label#label-sex,
 section label#label-age,
 section label#label-weight,
 section label#label-height {
     width: var(--form-labels-width);
+    text-align: center;
 }
 
+section select#select-sex {
+    margin-left: var(--form-inputs-margin-left);
+    text-align: center;
+}
 
 section input#input-age,
 section input#input-weight,
 section input#input-height {
     width: var(--form-inputs-width);
     margin-left: var(--form-inputs-margin-left);
+    text-align: center;
+}
+
+section label#label-age-unit,
+section label#label-weight-unit,
+section label#label-height-unit {
+    text-align: center;
+}
+
+section label#label-sex {
+    grid-area: label-sex;
+}
+
+section select#select-sex {
+    grid-area: select-sex;
 }
 
 section label#label-age {
@@ -184,6 +193,102 @@ section input#input-height {
 
 section label#label-height-unit {
     grid-area:  unit-height;
+}
+
+/* /////////////////////////////////////////////////////////////// */
+/* ///////////////// Section Model Settings ////////////////////// */
+/* /////////////////////////////////////////////////////////////// */
+aside #section-model-settings {
+    margin-bottom: var(--form-sections-margin-bottom);
+    display: grid;
+    grid-template-columns: 40% 30% 30%;
+    grid-template-areas: 
+    "label-units select-units select-units"
+    "label-time input-time unit-time"
+    "label-rate input-rate unit-rate"
+    "label-energy input-energy unit-energy";
+}
+
+section label#label-units,
+section select#select-units,
+section label#label-time,
+section input#input-time,
+section label#label-time-unit,
+section label#label-rate,
+section input#input-rate,
+section label#label-rate-unit {
+    margin-bottom: var(--form-items-margin-bottom);
+}
+
+section label#label-units,
+section label#label-time,
+section label#label-rate,
+section label#label-energy {
+    width: var(--form-labels-width);
+    text-align: center;
+}
+
+section select#select-units {
+    margin-left: var(--form-inputs-margin-left);
+    text-align: center;
+}
+
+section input#input-time,
+section input#input-rate,
+section input#input-energy {
+    width: var(--form-inputs-width);
+    margin-left: var(--form-inputs-margin-left);
+    text-align: center;
+}
+
+section label#label-time-unit,
+section label#label-rate-unit,
+section label#label-energy-unit {
+    text-align: center;
+}
+
+section label#label-units {
+    grid-area: label-units;    
+}
+
+section select#select-units {
+    grid-area: select-units;
+}
+
+section label#label-time {
+    grid-area: label-time;
+}
+
+section input#input-time {
+    grid-area: input-time;
+}
+
+section label#label-time-unit {
+    grid-area: unit-time;
+}
+
+section label#label-rate {
+    grid-area: label-rate;
+}
+
+section input#input-rate {
+    grid-area: input-rate;
+}
+
+section label#label-rate-unit {
+    grid-area: unit-rate;
+}
+
+section label#label-energy {
+    grid-area: label-energy;
+}
+
+section input#input-energy {
+    grid-area: input-energy;
+}
+
+section label#label-energy-unit {
+    grid-area: unit-energy;
 }
 
 /* /////////////////////////////////////////////////////////////// */

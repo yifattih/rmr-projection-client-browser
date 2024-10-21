@@ -1,8 +1,8 @@
 import numpy as np
 from typing import TypeAlias
-from helpers import time_projection as time_proj
-from helpers import weight_projection as weight_proj
-from helpers.equations import HarrisBenedict
+from .helpers import time_projection as time_proj
+from .helpers import weight_projection as weight_proj
+from .helpers.equations import HarrisBenedict
 
 JSONType: TypeAlias = dict[str, str | None]
 

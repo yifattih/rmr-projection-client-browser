@@ -3,54 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BMR</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Daily Basal Metabolic Rate Projector</title>
 </head>
 <body>
-    <h1>Data Entry</h1>
-    <form id="dataForm">
-        <label for="weight">Weight (lbs):</label>
-        <input type="text" id="weight" name="weight" placeholder="weight > 0" required>
-        <label for="height">Height (inch):</label>
-        <input type="text" id="height" name="height" placeholder="height > 0" required>
-        <label for="age">Age (years):</label>
-        <input type="text" id="age" name="age" placeholder="age > 19" required>
-        <label for="time">Weeks:</label>
-        <input type="text" id="time" name="time" placeholder="0 < weeks < 52" required>
-        <button type="submit">Calculate</button>
-        <button type="reset">Clear</button>
-    </form>
+    <header>
+        <h1>Basal Metabolic Rate <span>Projector</span></h1>
+        <h5>Welcome</h5>
+    </header>
+    <aside>
+        <form id="data-form">
+            <h2 id="h2-header">Data Entry</h2>
 
-    <h2>Input Data</h2>
-    <table id="inputDataTable">
-        <thead>
-            <tr>
-                <th>Weight (lbs)</th>
-                <th>Height (inch)</th>
-                <th>Age (years)</th>
-                <th>Time (weeks)</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+            <h3 id="h3-body-physical-data">Body Physical Data</h3>
 
-    <h2>Output Data</h2>
-    <table id="outputDataTable">
-        <thead>
-            <tr>
-                <th>Week</th>
-                <th>Weight (lbs)</th>
-                <th>Daily BMR to Keep Weight (cal)</th>
-                <th>Daily BMR to Loose 2 Pounds (cal)</th>
-                <th>Weekly BMR to Keep Weight (cal)</th>
-                <th>Weekly BMR to Loose 2 Pounds (cal)</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+            <section id="section-body-physical-data">
+                <label for="select-sex" id="label-sex">Sex:</label>
+                <select id="select-sex" name="sex">
+                    <option value="men">Men</option>
+                    <option value="female">Female</option>                    
+                </select>
+
+                <label for="input-age" id="label-age">Age:</label>
+                <input id="input-age" type="number" name="age">
+                <label for="input-age" id="label-age-unit">years</label>
+                
+                <label for="input-weight" id="label-weight">Initial Weight:</label>
+                <input id="input-weight" type="number" name="weight">
+                <label for="input-weight" id="label-weight-unit">lbs</label>
+
+                <label for="input-height" id="label-height">Height:</label>
+                <input id="input-height" type="number" name="height">
+                <label for="input-height" id="label-height-unit">inch</label>
+            </section>
+
+            <h3 id="h3-model-settings">Model Settings</h3>
+
+            <section id="section-model-settings">
+
+                <label for="select-units" id="label-units">System of Units:</label>
+                <select id="select-units" type="number" name="units">
+                    <option value="imperial">Imperial (lbs/inch)</option>
+                    <option value="metric">Metric (kg/cm)</option>                    
+                </select>
+
+                <label for="input-time" id="label-time">Time to project:</label>
+                <input id="input-time" type="number" name="time">
+                <label for="input-time" id="label-time-unit">weeks</label>
+            
+                <label for="input-rate" id="label-rate">Weight Loss Rate:</label>
+                <input id="input-rate" type="number" name="rate" value="2">
+                <label for="input-rate" id="label-rate-unit">lbs</label>
+        
+                <label for="input-energy" id="label-energy">Energy Deficit:</label>
+                <input id="input-energy" type="number" name="energy" value="1000">
+                <label for="input-energy" id="label-energy-unit">cal</label>
+            </section>
+
+            <section id="section-buttons">
+                    <button type="submit" id="button-submit">Submit</button>
+                    <button class="clear" id="button-clear">Clear</button>
+            </section>
+        </form>
+    </aside>
+    <main>
+        <section>
+            Equations Explanation
+        </section>
+        <article>
+            <figure>
+                Figure
+                <figcaption>
+                    Figure Caption
+                </figcaption>
+            </figure>
+        </article>
+    </main>
+    <footer>
+        <strong>Disclaimer:</strong> The information provided in this material is for 
+        educational purposes only and should not be considered professional 
+        or expert advice. While every effort has been made to ensure the 
+        accuracy of the information, it may not reflect the most current 
+        research or practices. Users are encouraged to consult with qualified 
+        professionals for specific guidance related to their individual 
+        circumstances. The creators of this material assume no responsibility 
+        for any errors or omissions, or for any outcomes resulting from the 
+        use of this information.
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="{{ url_for('static', filename='script.js') }}"></script>
 </html>
+
+        
+<!-- 
+    <div class="data-log-container" style="display:none">
+        <h3>Data Log</h3>
+        <div class="data-log"></div>
+    </div> -->

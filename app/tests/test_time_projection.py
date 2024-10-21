@@ -1,7 +1,7 @@
 import unittest
 import pytest
 import numpy as np
-from helpers import time_projection
+from app.bmr.helpers import time_projection
 
 class TestTimeProjection(unittest.TestCase):
     def test_time_projection_return_np_array(self) -> None:

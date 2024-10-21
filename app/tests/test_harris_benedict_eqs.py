@@ -1,7 +1,7 @@
 import unittest
 import pytest
 import numpy as np
-from helpers.equations import HarrisBenedict 
+from app.bmr.helpers.equations import HarrisBenedict 
 
 class TestEquationsHarrisBenedict(unittest.TestCase):
     def test_equations_harrisbenedict_str(self) -> None:

@@ -12,52 +12,66 @@ data_input = []
 data_output = []
 
 def process_data_in(data: JSONType) -> dict[str, str | number]:
-    return {"weight": float(data["weight"]),
-            "height": float(data["height"]),
-            "age": int(data["age"]),
-            "time": int(data["time"])}
+    processed_data_in = {}
+    for key, value in data.items():
+        try:
+            value = float(value)
+        except Exception:
+            pass
+        processed_data_in.update({key: value})
+    return processed_data_in
 
 @app.route('/')
 def home() -> str:  
     return render_template('index.html')
 
-@app.route('/data-in',
+@app.route('/data-input',
            methods=['GET'])
 def get_data_in() -> Response:
     return jsonify(data_input)
 
-@app.route('/data-out',
+@app.route('/data-output',
            methods=['GET'])
 def get_data_out() -> Response:
     return jsonify(data_output)
 
-@app.route('/model-construct',
+@app.route('/model',
            methods=['POST'])
 def model_construct() -> Response:
     # Get data from AJAX request
     data_in = request.json
-    data_in = process_data_in(data=data_in)
-    # Calculate output from model
-    data_out = model.construct(data=data_in)
+    try:
+        data_in = process_data_in(data=data_in)
+    except:
+        response = {"message": "Data Input Conversion",
+                    "status": "Failed!",
+                    "data_out": []}
     
-    data_input.append(data_in)
-    data_output.append(data_out)
-
-    response = {
-        "message": "Data processed!",
-        "status": "Success!",
-        "data_out": data_output
-        }
+    try:
+        # Calculate output from model
+        model_engine = model.Builder(data=data_in)
+        model_engine.build()
+        model_engine.calculate()
+        data_output = model_engine.jasonable_dict()
+        response = {"message": "Model Run",
+                    "status": "Success!",
+                    "data_out": data_output
+                    }
+    except:
+        response = {"message": "Model Run",
+                    "status": "Failed!",
+                    "data_out": []
+                    }
 
     return jsonify(response)
 
-@app.route('/reset', methods=['POST'])
+@app.route('/reset',
+           methods=['POST'])
 def clear() -> Response:
     # Get data from AJAX request
     data_input.clear()
     data_output.clear()
-    
-    response = {"message": "Data cleared!",
-                "status": "success"}
-
+    response = {"message": "Data Clearing",
+                "status": "Success!",
+                "data_out": data_output}
     return jsonify(response)

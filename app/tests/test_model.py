@@ -1,5 +1,5 @@
 import unittest
-import model
+from app.bmr import model
 
 
 class TestModel(unittest.TestCase):

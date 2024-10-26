@@ -5,9 +5,10 @@ $(document).ready(function() {
     //////// Show initial message ////////
 
     var statusMessageContainer = $("header h5");
+
     displayMessage(
         statusMessageContainer,
-        "App: Ready!"
+        "App ready!"
     );
 
     //////// Input data validation ////////
@@ -45,6 +46,39 @@ $(document).ready(function() {
         statusMessageContainer
     );
 
+    // Time to Project must be 0 or more
+    var timeField = $('#input-time');
+    var minTime = 0;
+    var timeErrorMessage = "Time must be 0 or more";
+    checkIfGreaterThan(
+        timeField,
+        minTime,
+        timeErrorMessage,
+        statusMessageContainer
+    );
+
+    // Weight Loss Rate must be 0 or more
+    var rateField = $('#input-rate');
+    var minRate = 0;
+    var rateErrorMessage = "Loss Rate must be 0 or more";
+    checkIfGreaterThan(
+        rateField,
+        minRate,
+        rateErrorMessage,
+        statusMessageContainer
+    );
+
+    // Energy Deficit must be 0 or more
+    var energyField = $('#input-energy');
+    var minEnergy = 0;
+    var energyErrorMessage = "Energy Deficit must be 0 or more";
+    checkIfGreaterThan(
+        energyField,
+        minEnergy,
+        energyErrorMessage,
+        statusMessageContainer
+    );
+
     //////// Change units based on selection ////////
 
     $('#select-units').on(
@@ -71,11 +105,21 @@ $(document).ready(function() {
         function(event) {
         event.preventDefault();
         var form_data = $('#data-form').serializeArray();
+        var formInputIsValid = [];
         console.log(form_data);
         for (var input in form_data){
             var element=$("#input-"+form_data[input]['name']);
-            console.log(element);
+            var select_element=$("#select-"+form_data[input]['name']);
+            if (element.hasClass("input-valid") || select_element.hasClass("input-valid")) {
+                formInputIsValid.push(true);
+                console.log("Element Valid: "+form_data[input]['name'])
+            }
+            else {
+                formInputIsValid.push(false);
+                console.log("Element Invalid: "+form_data[input]['name'])
+            }
         };
+
         const sex = $('#select-sex').val();
         const age = $('#input-age').val();
         const weight = $('#input-weight').val();
@@ -85,40 +129,36 @@ $(document).ready(function() {
         const weightLossRate = $('#input-rate').val();
         const energyDeficit = $('#input-energy').val();
 
-        $.ajax({
-            url: '/model',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                sex: sex,
-                age: age,
-                weight: weight,
-                height: height,
-                units: units,
-                weeks: weeks,
-                weight_loss_rate: weightLossRate,
-                energy_deficit: energyDeficit
-            }),
-            success: function(response) {
-                console.log("Server response");
-                console.log(response);
-                serverMessage = `${response.message}: ${response.status}`;
-                displayMessage(statusMessageContainer, serverMessage);
+        console.log(formInputIsValid)
+        const formIsValid = formInputIsValid.every(value => value === true);
+        console.log(formIsValid)
 
-                // $('.data-log').append(`<p>Sex: ${response.data_out.sex}</p>`);
-                // $('.data-log').append(`<p>Age: ${response.data_out.age} years</p>`);
-                // $('.data-log').append(`<p>Weight: ${response.data_out.weight} lbs</p>`);
-                // $('.data-log').append(`<p>Height: ${response.data_out.height} inches</p>`);
-                // $('.data-log').append(`<p>Units: ${response.data_out.units}</p>`);
-                // $('.data-log').append(`<p>Equations: ${response.data_out.equations}</p>`);
-                // $('.data-log').append(`<p>Weeks: ${response.data_out.weeks}</p>`);
-                // $('.data-log').append(`<p>Weight Loss Rate: ${response.data_out.weight_loss_rate} lbs</p>`);
-                // $('.data-log').append(`<p>Energy Deficit: ${response.data_out.energy_deficit} cal</p>`);
-                // $('.data-log').append(`<p>Time Projected: ${response.data_out.time_projected} weeks</p>`);
-                // $('.data-log').append(`<p>BMR to Keep Weight: ${response.data_out.bmr} cal</p>`);
-                // $('.data-log').append(`<p>BMR to Loose 2 Pounds: ${response.data_out.bmr_deficit} cal</p>`);
-            }
-        });
+        if (formIsValid) {
+            $.ajax({
+                url: '/model',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    sex: sex,
+                    age: age,
+                    weight: weight,
+                    height: height,
+                    units: units,
+                    weeks: weeks,
+                    weight_loss_rate: weightLossRate,
+                    energy_deficit: energyDeficit
+                }),
+                success: function(response) {
+                    console.log("Server response");
+                    console.log(response);
+                    serverMessage = `${response.message}: ${response.status}`;
+                    displayMessage(statusMessageContainer, serverMessage);
+                }
+            });
+        }
+        else {
+            displayMessage(statusMessageContainer, "Data not valid")
+        };
     });
 
     //////// Handle form clearing ////////
@@ -149,38 +189,44 @@ $(document).ready(function() {
 });
 
 //////// Utility functions ////////
-
 function checkIfGreaterThan (
     field,
     minValue,
     errorMessage,
     messageContainer) {
     field.on(
-        'blur',
+        'change',
         function() {
         var input = $(this);
         var inputValue = input.val();
 
         if(inputValue >= minValue) {
             input.removeClass("input-invalid").addClass("input-valid");
-            messageContainer.removeClass("input-invalid").addClass("input-valid");
+            messageContainer.removeClass("input-invalid");
+            displayMessage(messageContainer, '');   
         }
         else {
             input.removeClass("input-valid").addClass("input-invalid");
-            messageContainer.removeClass("input-valid").addClass("input-invalid");
+            messageContainer.addClass("input-invalid");
             // Append the error message and show
-            displayMessage(messageContainer, errorMessage);
+            messageContainer.val('');
+            messageContainer.text(errorMessage);
+            messageContainer.animate(
+                {"opacity": 100},
+                700
+            );
             // Remove the error message on focus
             input.on("focus", function() {
-                errorMessage = "";
+                messageContainer.removeClass("input-invalid");
+                displayMessage(messageContainer, '');
             });
         };
     });
 };
 
 function displayMessage (messageContainer, message) {
-    messageContainer.empty();
-    messageContainer.append(message);
+    messageContainer.val('');
+    messageContainer.text(message);
 
     messageContainer.animate(
         {"opacity": 100},
@@ -189,7 +235,7 @@ function displayMessage (messageContainer, message) {
 
     messageContainer.animate(
         {"opacity": 0},
-        900
+        400
     );
 };
 

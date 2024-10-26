@@ -1,7 +1,7 @@
 html {
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
-  }
+}
 
 *, *:before, *:after {
     box-sizing: inherit;
@@ -10,34 +10,31 @@ html {
 * {
     border-style: solid;
     border-color: red;
-    border-width: 0.5px;
+    border-width: 0px;
 }
 
 :root {
-    --font-title: 2rem;
-    --font-subtitles: 1.25rem;
-    --font-subsubtitles: 1.125rem;
-    --font-normal: 1rem;
-    --font-footer: 0.625rem;
+    font-size: 62.5%;
 
-    --font-weight-title: 800;
-    --font-weight-subtitles: 600;
-    --font-weight-subsubtitle: 400;
-    --font-weight--normal: 500;
+    --border-width: 0.2rem;
+    
+    --font-color-heading: #27637D;
+    --font-color-normal: black;
+    --font-color-buttons: white;
 
-    --form-items-margin-bottom: 0.625rem;
-    --form-sections-margin-bottom: 2rem;
-    --form-inputs-margin-left: 2rem;
-
-    --form-labels-width: 9rem;
-    --form-inputs-width: 3.5rem;
+    --block-color-normal-background: #f2f2f2;
+    --block-color-normal-border: #A8A7A7;
+    --block-color-units-background: #D9D9D9;
+    --block-color-buttons-background: #21586e83;
+    --block-color-buttons-border: #215970;
 }
 
 
 body {
+    margin: 0;
     min-height: 100vh;
     display: grid;
-    grid-template-columns: 25% 75%;
+    grid-template-columns: 30% 70%;
     grid-template-rows: auto 1fr auto;
     grid-template-areas: 
     "header header"
@@ -50,18 +47,27 @@ body {
 /* /////////////////////////////////////////////////////////////// */
 header {
     grid-area: header;
-    align-items: center;
     display: grid;
     grid-template-columns: 80% 20%;
     grid-template-areas: 
     "h1 h5";
+    padding: 0 1.6rem;
+    height: 4.5rem;
+    align-items: center;
+    background-color: var(--block-color-normal-background);
+    border-bottom-width: var(--border-width);
+    border-bottom-style: solid;
+    border-bottom-color: var(--block-color-normal-border);
 }
 
 header h1 {
     grid-area: h1;
-    font-size: var(--font-title);
-    font-weight: var(--font-weight-title);
+    margin: 0;
+    font-size: 3.2rem;
+    font-weight: normal;
     text-transform: uppercase;
+    text-align: left;
+    color: var(--font-color-heading);
 }
 
 header h1 span {
@@ -70,8 +76,9 @@ header h1 span {
 
 header h5 {
     grid-area: h5;
-    font-size: var(--font-normal);
-    font-weight: var(--font-weight--notmal);
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: normal;
     text-align: right;
 }
 /* /////////////////////////////////////////////////////////////// */
@@ -79,33 +86,57 @@ header h5 {
 /* /////////////////////////////////////////////////////////////// */
 aside {
     grid-area: aside;
+    min-width: fit-content;
+    padding: 0.8rem 0;
+    margin-top: 2.2rem;
+    margin-bottom: 2.2rem;
+    margin-left: 1.6rem;
+    border-radius: 1rem;
+    /* border-width: var(--border-width);
+    border-style: solid;
+    border-color: var(--block-color-normal-border);
+    background-color: var(--block-color-normal-background); */
 }
 
-aside h2 {
-    font-size: var(--font-subtitles);
-    font-weight: var(--font-weight-subtitles);
-    text-align: center;
+h3 {
     margin-top: 0;
-    margin-bottom: 1.5rem;
-}
-
-aside h3 {
-    font-size: var(--font-subsubtitles);
-    font-weight: var(--font-weight-subsubtitle);
+    margin-bottom: 0.8rem;
+    font-size: 1.8rem;
+    font-weight: normal;
     text-transform: uppercase;
-    text-align: center;
-    margin-bottom: 1rem;
+    color: var(--font-color-heading);
+    border-bottom-width: var(--border-width);
+    border-bottom-style: solid;
+    border-bottom-color: var(--block-color-normal-border);
 }
 
+aside form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+aside section#section-body-data,
+aside section#section-model-settings {
+    margin-bottom: 4.8rem;
+}
+
+aside section#section-buttons {
+    margin-top: auto;
+
+}
+
+select:hover {
+    cursor: pointer;
+}
 /* /////////////////////////////////////////////////////////////// */
 /* ///////////////// Section Body Physical Data ///////////////// */
 /* /////////////////////////////////////////////////////////////// */
-aside #section-body-physical-data {
-    font-size: var(--font-normal);
-    font-weight: var(--font-weight--normal);
-    margin-bottom: var(--form-sections-margin-bottom);
+aside #section-body-data {
+    align-items: center;
+    font-size: 1.4rem;
     display: grid;
-    grid-template-columns: 40% 30% 30%;
+    grid-template-columns: 52% 24% 24%;
     grid-template-areas: 
     "label-sex select-sex select-sex"
     "label-age input-age unit-age"
@@ -121,34 +152,43 @@ section label#label-age-unit,
 section label#label-weight,
 section input#input-weight,
 section label#label-weight-unit {
-    margin-bottom: var(--form-items-margin-bottom);
+    margin-bottom: 0.8rem;
 }
 
 section label#label-sex,
 section label#label-age,
 section label#label-weight,
 section label#label-height {
-    width: var(--form-labels-width);
-    text-align: center;
+    min-width: fit-content;
 }
 
 section select#select-sex {
-    margin-left: var(--form-inputs-margin-left);
+    font-size: 1.4rem;
     text-align: center;
+    border-radius: 0.4rem;
+    border-width: var(--border-width);
+    color: white;
+    background-color: var(--block-color-buttons-background);
+    border-color: var(--block-color-buttons-border);
 }
 
 section input#input-age,
 section input#input-weight,
 section input#input-height {
-    width: var(--form-inputs-width);
-    margin-left: var(--form-inputs-margin-left);
     text-align: center;
+    border-width: var(--border-width);
+    border-color: var(--block-color-normal-border);
 }
 
 section label#label-age-unit,
 section label#label-weight-unit,
 section label#label-height-unit {
+    min-width: fit-content;
     text-align: center;
+    margin-left: 0.8rem;
+    border-width: var(--border-width);
+    background-color: var(--block-color-units-background);
+    border-color: var(--block-color-normal-border);
 }
 
 section label#label-sex {
@@ -199,14 +239,25 @@ section label#label-height-unit {
 /* ///////////////// Section Model Settings ////////////////////// */
 /* /////////////////////////////////////////////////////////////// */
 aside #section-model-settings {
-    margin-bottom: var(--form-sections-margin-bottom);
+    align-items: center;
+    font-size: 1.4rem;
     display: grid;
-    grid-template-columns: 40% 30% 30%;
+    grid-template-columns: 52% 24% 24%;
     grid-template-areas: 
     "label-units select-units select-units"
     "label-time input-time unit-time"
     "label-rate input-rate unit-rate"
     "label-energy input-energy unit-energy";
+}
+
+section select#select-units {
+    font-size: 1.4rem;
+    text-align: center;
+    color: white;
+    border-radius: 0.4rem;
+    border-width: var(--border-width);
+    background-color: var(--block-color-buttons-background);
+    border-color: var(--block-color-buttons-border);
 }
 
 section label#label-units,
@@ -217,34 +268,36 @@ section label#label-time-unit,
 section label#label-rate,
 section input#input-rate,
 section label#label-rate-unit {
-    margin-bottom: var(--form-items-margin-bottom);
+    margin-bottom: 0.8rem;
 }
 
 section label#label-units,
 section label#label-time,
 section label#label-rate,
 section label#label-energy {
-    width: var(--form-labels-width);
-    text-align: center;
+    text-align: left;
 }
 
 section select#select-units {
-    margin-left: var(--form-inputs-margin-left);
     text-align: center;
 }
 
 section input#input-time,
 section input#input-rate,
 section input#input-energy {
-    width: var(--form-inputs-width);
-    margin-left: var(--form-inputs-margin-left);
     text-align: center;
+    border-width: var(--border-width);
+    border-color: var(--block-color-normal-border);
 }
 
 section label#label-time-unit,
 section label#label-rate-unit,
 section label#label-energy-unit {
     text-align: center;
+    margin-left: 0.8rem;
+    border-width: var(--border-width);
+    background-color: var(--block-color-units-background);
+    border-color: var(--block-color-normal-border);
 }
 
 section label#label-units {
@@ -292,10 +345,92 @@ section label#label-energy-unit {
 }
 
 /* /////////////////////////////////////////////////////////////// */
+/* ///////////////// Form Controls ///////////////////////////// */
+/* /////////////////////////////////////////////////////////////// */
+.input-invalid {
+    color: black;
+    background-color: #b91f1f7e;
+    border-color: #B91F1F;
+    border-width: var(--border-width);
+}
+
+.input-valid {
+    color: black;
+    background-color: #2e6b3284;
+    border-color: #2E6B32;
+    border-width: var(--border-width);
+}
+
+/* /////////////////////////////////////////////////////////////// */
+/* ///////////////// Section Buttons ///////////////////////////// */
+/* /////////////////////////////////////////////////////////////// */
+aside section#section-buttons {
+    min-width: fit-content;
+    display: grid;
+    grid-template-columns: 25% 75%;
+    grid-template-areas: 
+    "button-clear button-submit"
+    ;
+}
+
+section button {
+    padding: 0.5rem;
+    font-size: 1.6rem;
+    text-align: center;
+    color: white;
+    background-color: var(--block-color-buttons-background);
+}
+
+section button:hover {
+    cursor: pointer;
+}
+
+section button#button-clear {
+    grid-area: button-clear;
+    border-top-left-radius: 1.6rem;
+    border-bottom-left-radius: 1.6rem;
+}
+
+section button#button-submit {
+    grid-area: button-submit;
+    margin-left: 0.8rem;
+    border-top-right-radius: 1.6rem;
+    border-bottom-right-radius: 1.6rem;
+}
+
+/* /////////////////////////////////////////////////////////////// */
 /* ///////////////// Main //////////////////////////////////////// */
 /* /////////////////////////////////////////////////////////////// */
 main {
-    grid-area: main;
+    min-width: fit-content;
+    padding: 0.8rem 0;
+    margin: 2.2rem 1.6rem;
+    border-radius: 1rem;
+}
+
+section#references p {
+    min-width: fit-content;
+    margin-top: 0;
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
+}
+
+a {
+    min-width: fit-content;
+    color: black;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+a:visited {
+    background-color: var(--block-color-buttons-background);
+}
+
+a:hover,
+a:active {
+    padding: 0.5rem;
+    color: white;
+    background-color: var(--block-color-buttons-background);
 }
 
 /* /////////////////////////////////////////////////////////////// */
@@ -303,5 +438,15 @@ main {
 /* /////////////////////////////////////////////////////////////// */
 footer {
     grid-area: footer;
-    font-size: var(--font-footer);
+    min-width: fit-content;
+    min-height: fit-content;
+    font-size: 1rem;
+    padding: 0.8rem 1.6rem;
+    background-color: var(--block-color-normal-background);
+    border-top-width: var(--border-width);
+    border-top-color: var(--block-color-normal-border);
+}
+
+footer strong {
+    color: red;
 }

@@ -13,9 +13,9 @@ assignees: yifattih
 # Task Title
 Task: Awesome Task Title
 
-## Task Steps
+# Task Steps
 - 
 
-## User Story Parent
+# User Story Parent
 <!-- The link below should link to its User Story Parent. -->
 [User Story: Awesome User Story Title](https://github.com/username/repository-name/issues/1)

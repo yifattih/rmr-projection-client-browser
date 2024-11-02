@@ -5,14 +5,14 @@ def get_weight() -> float:
     weight_str = input('What is your weight in pounds? ')
     return float(weight_str)
 
-def get_height():
+def get_height() -> float:
     """
     Prompt the user for their height and return it as a float.
     """
     height_str = input('What is your height in inches? ')
     return float(height_str)
 
-def get_age():
+def get_age() -> int:
     """
     Prompt the user for their age and return it as an int.
     """

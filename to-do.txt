@@ -1,0 +1,7 @@
+**Convert root font from 16px to 10px by setting font-size: 62.5%
+  This way, 1rem is equal to 10px and 1.8rem equals 18px.
+
+Font Body: 18px = 18.rem
+Font Headline 1: 2x(Font Body) = 36px = 3.6rem
+Font Headline 2: (Font Headline) -6px = 30px = 3rem
+Font Footer: 16px = 1.6rem

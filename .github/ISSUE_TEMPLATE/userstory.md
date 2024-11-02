@@ -12,12 +12,12 @@ Feature: Awesome Feature Title
 
 # Structure of a User Story
 
-“As a [type of user], I want [goal or feature] so that [reason or benefit].”
+As a _type of user_, I want _goal_ or _feature_ so that _reason_ or _benefit_.
 
 For example:
 
-- "As a new user, I want to be able to register with my email so that I can access personalized content."
-- "As a returning customer, I want to see my order history so that I can easily reorder items."
+- As a new user, I want to be able to register with my email so that I can access personalized content.
+- As a returning customer, I want to see my order history so that I can easily reorder items.
 
 ## Key Components
 * Role (Type of User): Defines who is requesting the feature (e.g., admin, registered user, guest).

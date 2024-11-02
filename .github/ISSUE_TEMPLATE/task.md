@@ -1,6 +1,11 @@
 ---
 name: Task
-about: A small task that is, most likely, part of an Epic. It will usually be labeled as `good first issue`.
+about: A small task that is, most likely, part of an Epic. It will usually be labeled
+  as `good first issue`.
+title: ''
+labels: ''
+assignees: ''
+
 ---
 
 <!-- Issue title should mirror the Task Title. -->
@@ -18,5 +23,3 @@ This Task will...
 <!-- The link below should link to its User Story Parent. -->
 
 [Feature: Awesome Feature Title](https://github.com/username/repository-name/issues/1)
-
-

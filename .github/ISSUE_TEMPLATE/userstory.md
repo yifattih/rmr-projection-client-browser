@@ -1,7 +1,7 @@
 
 ---
 name: User Story
-about: Short, simple descriptions of a feature or functionality from the end-user's perspective. They capture what a user wants to accomplish and why. It will usually be labeled as `enhancement`.
+about: Short, simple descriptions of a feature or functionality from the end-user's perspective. They capture what a user wants to accomplish and why. It will usually be labeled as enhancement.
 ---
 
 <!-- Issue title should mirror the User Story Title. -->
@@ -10,7 +10,9 @@ about: Short, simple descriptions of a feature or functionality from the end-use
 
 Feature: Awesome Feature Title
 
-# Structure of a User Story
+# User Story Description
+
+## Structure of a User Story
 
 As a _type of user_, I want _goal_ or _feature_ so that _reason_ or _benefit_.
 

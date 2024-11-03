@@ -18,4 +18,4 @@ Task: Awesome Task Title
 
 # Parent
 <!-- The link below should link to its User Story Parent. -->
-[User Story: Awesome User Story Title](https://github.com/username/repository-name/issues/1)
+[Story: Title](https://github.com/username/repository-name/issues/1)

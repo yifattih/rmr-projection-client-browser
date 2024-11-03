@@ -3,7 +3,7 @@ name: User Story
 about: Short, simple descriptions of a feature or functionality from the end-user's
   perspective. They capture what a user wants to accomplish and why. It will usually
   be labeled as enhancement.
-title: Awesome User Story Title
+title: Story: 
 labels: enhancement
 assignees: yifattih
 
@@ -13,7 +13,7 @@ assignees: yifattih
 
 # User Story Title
 
-Feature: Awesome Feature Title
+Story: Title
 
 # User Story Description
 

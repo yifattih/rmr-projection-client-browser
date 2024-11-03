@@ -10,12 +10,12 @@ assignees: yifattih
 
 <!-- Issue title should mirror the Task Title. -->
 
-# Task Title
+# Title
 Task: Awesome Task Title
 
-# Task Steps
+# Steps
 - 
 
-# User Story Parent
+# Parent
 <!-- The link below should link to its User Story Parent. -->
 [User Story: Awesome User Story Title](https://github.com/username/repository-name/issues/1)

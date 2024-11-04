@@ -16,10 +16,12 @@ $(document).ready(function() {
     // Age must be 19 years or more
     var ageField = $("#input-age");
     var minAge = 19;
-    var ageErrorMessage = "Age must be 19 years or more";
-    checkIfGreaterThan(
+    var maxAge = 150;
+    var ageErrorMessage = "Must be between 19 and 150";
+    isBetween(
         ageField,
         minAge,
+        maxAge,
         ageErrorMessage,
         statusMessageContainer
     );
@@ -28,7 +30,7 @@ $(document).ready(function() {
     var weightField = $('#input-weight');
     var minWeight = 0;
     var weightErrorMessage = "Weight must be 0 or more";
-    checkIfGreaterThan(
+    isGreaterThan(
         weightField,
         minWeight,
         weightErrorMessage,
@@ -38,8 +40,8 @@ $(document).ready(function() {
     // Height must be 0 or more
     var heightField = $('#input-height');
     var minHeight = 0;
-    var heightErrorMessage = "Height must be 0 or more";
-    checkIfGreaterThan(
+    var heightErrorMessage = "Must be 0 or more";
+    isGreaterThan(
         heightField,
         minHeight,
         heightErrorMessage,
@@ -49,8 +51,8 @@ $(document).ready(function() {
     // Time to Project must be 0 or more
     var timeField = $('#input-time');
     var minTime = 0;
-    var timeErrorMessage = "Time must be 0 or more";
-    checkIfGreaterThan(
+    var timeErrorMessage = "Must be 0 or more";
+    isGreaterThan(
         timeField,
         minTime,
         timeErrorMessage,
@@ -60,8 +62,8 @@ $(document).ready(function() {
     // Weight Loss Rate must be 0 or more
     var rateField = $('#input-rate');
     var minRate = 0;
-    var rateErrorMessage = "Loss Rate must be 0 or more";
-    checkIfGreaterThan(
+    var rateErrorMessage = "Must be 0 or more";
+    isGreaterThan(
         rateField,
         minRate,
         rateErrorMessage,
@@ -71,8 +73,8 @@ $(document).ready(function() {
     // Energy Deficit must be 0 or more
     var energyField = $('#input-energy');
     var minEnergy = 0;
-    var energyErrorMessage = "Energy Deficit must be 0 or more";
-    checkIfGreaterThan(
+    var energyErrorMessage = "Must be 0 or more";
+    isGreaterThan(
         energyField,
         minEnergy,
         energyErrorMessage,
@@ -189,18 +191,54 @@ $(document).ready(function() {
 });
 
 //////// Utility functions ////////
-function checkIfGreaterThan (
+function isGreaterThan (
     field,
     minValue,
     errorMessage,
     messageContainer) {
     field.on(
-        'change',
+        'input',
         function() {
         var input = $(this);
         var inputValue = input.val();
 
         if(inputValue >= minValue) {
+            input.removeClass("input-invalid").addClass("input-valid");
+            messageContainer.removeClass("input-invalid");
+            displayMessage(messageContainer, '');   
+        }
+        else {
+            input.removeClass("input-valid").addClass("input-invalid");
+            messageContainer.addClass("input-invalid");
+            // Append the error message and show
+            messageContainer.val('');
+            messageContainer.text(errorMessage);
+            messageContainer.animate(
+                {"opacity": 100},
+                700
+            );
+            // Remove the error message on focus
+            input.on("focus", function() {
+                messageContainer.removeClass("input-invalid");
+                displayMessage(messageContainer, '');
+            });
+        };
+    });
+};
+
+function isBetween (
+    field,
+    minValue,
+    maxValue,
+    errorMessage,
+    messageContainer) {
+    field.on(
+        'input',
+        function() {
+        var input = $(this);
+        var inputValue = input.val();
+
+        if(inputValue >= minValue && inputValue <= maxValue) {
             input.removeClass("input-invalid").addClass("input-valid");
             messageContainer.removeClass("input-invalid");
             displayMessage(messageContainer, '');   

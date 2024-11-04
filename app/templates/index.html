@@ -12,9 +12,10 @@
         <h5>Welcome</h5>
     </header>
     <aside>
+        <!-- Data Input Form -->
         <form id="data-form">
+            <!-- Section related to body data -->
             <h3 id="h3-body-data">Body Data</h3>
-
             <section id="section-body-data">
                 <label for="select-sex" id="label-sex">Sex</label>
                 <select id="select-sex" class="input-valid" name="sex">
@@ -34,7 +35,7 @@
                 <input id="input-height"  type="number" name="height">
                 <label for="input-height" id="label-height-unit">inch</label>
             </section>
-
+            <!-- Section related to settings for the calculations will be done -->
             <h3 id="h3-model-settings">Model Settings</h3>
 
             <section id="section-model-settings">
@@ -57,7 +58,7 @@
                 <input id="input-energy" class="input-valid" type="number" name="energy" value="1000">
                 <label for="input-energy" id="label-energy-unit">cal</label>
             </section>
-
+            <!-- Section related to data submission -->
             <section id="section-buttons">
                     <button type="submit" id="button-submit">Submit</button>
                     <button class="clear" id="button-clear">Clear</button>
@@ -105,10 +106,3 @@
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
-
-        
-<!-- 
-    <div class="data-log-container" style="display:none">
-        <h3>Data Log</h3>
-        <div class="data-log"></div>
-    </div> -->

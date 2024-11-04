@@ -22,7 +22,10 @@ def process_data_in(data: JSONType) -> dict[str, str | number]:
     return processed_data_in
 
 @app.route('/')
-def home() -> str:  
+def home() -> str:
+    """
+    Main function to handle and render the homepage.
+    """  
     return render_template('index.html')
 
 @app.route('/data-input',
@@ -38,6 +41,12 @@ def get_data_out() -> Response:
 @app.route('/model',
            methods=['POST'])
 def model_construct() -> Response:
+    """
+    Main function to handle AJAX POST requests with input data.
+    
+    :return: Data received and data output
+    :rtype: JSON
+    """
     # Get data from AJAX request
     data_in = request.json
     try:
@@ -68,6 +77,12 @@ def model_construct() -> Response:
 @app.route('/reset',
            methods=['POST'])
 def clear() -> Response:
+    """
+    Main function to handle AJAX POST requests to clear form fields and plots.
+    
+    :return: Empty data
+    :rtype: JSON
+    """
     # Get data from AJAX request
     data_input.clear()
     data_output.clear()

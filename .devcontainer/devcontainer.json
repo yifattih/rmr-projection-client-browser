@@ -21,11 +21,17 @@
 				"ecmel.vscode-html-css"
 			]
 		}
-	}
+	},
 
 	// Configure tool-specific properties.
 	// "customizations": {},
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
+	"remoteUser": "vscode", 
+    	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker": {
+		"version": "latest"
+		}
+	}
 }

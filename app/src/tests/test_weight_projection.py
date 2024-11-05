@@ -1,8 +1,8 @@
 import unittest
 import pytest
 import numpy as np
-from app.bmr.helpers import time_projection
-from app.bmr.helpers import weight_projection
+from src.bmr.helpers import time_projection
+from src.bmr.helpers import weight_projection
 
 class TestWeightProjection(unittest.TestCase):
     def test_weight_projection_return_np_array(self) -> None:

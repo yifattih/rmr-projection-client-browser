@@ -1,6 +1,6 @@
 from typing import TypeAlias
 from flask import Response, render_template, request, jsonify
-from app import app
+from src import app
 from .bmr import model
 
 JSONType: TypeAlias = dict[str, str | None]

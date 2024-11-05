@@ -1,4 +1,4 @@
-from app import app
+from src import app
 
 """
 This is the main file that starts the flask server and serves the web app UI in the browser.

@@ -1,7 +1,8 @@
 from typing import TypeAlias
-from flask import Response, render_template, request, jsonify
+from flask import Flask, Response, render_template, request, jsonify
 from src import app
-from .bmr import model
+from src.bmr import model
+
 
 JSONType: TypeAlias = dict[str, str | None]
 number: TypeAlias = int | float

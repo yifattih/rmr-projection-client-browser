@@ -10,7 +10,7 @@ html {
 * {
     border-style: solid;
     border-color: red;
-    border-width: 0.5px;
+    border-width: 0px;
 }
 
 :root {

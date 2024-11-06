@@ -1,7 +1,9 @@
 from routes import app
 
 """
-This is the main file that starts the flask server and serves the web app UI in the browser.
+This is the main file that starts the flask server and serves the web app UI
+in the browser.
+
 """
 
 if __name__ == "__main__":

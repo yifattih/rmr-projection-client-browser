@@ -72,7 +72,7 @@ def model_construct() -> Response:
             "status": "Success!",
             "data_out": data_output,
         }
-    except:
+    except Exception:
         response = {
             "message": "Model Run",
             "status": "Failed!",

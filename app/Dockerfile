@@ -21,4 +21,4 @@ COPY src/ /app/src/
 EXPOSE 5000
 
 # Command to run the app (e.g., a Flask app)
-CMD ["python", "app/src/wsgi.py"]
+CMD ["python", "src/wsgi.py"]

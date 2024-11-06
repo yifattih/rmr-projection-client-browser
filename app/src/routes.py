@@ -54,7 +54,7 @@ def model_construct() -> Response:
     data_in = request.json
     try:
         data_in = process_data_in(data=data_in)  # type: ignore
-    except:
+    except Exception:
         response = {
             "message": "Data Input Conversion",
             "status": "Failed!",

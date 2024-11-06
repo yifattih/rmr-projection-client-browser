@@ -7,18 +7,18 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y
 # Set the working directory for the app
 WORKDIR /app
 
+# Update pip
+RUN pip install --upgrade pip
+
 # Copy app-specific requirements and install them
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the app code into the container
-COPY src/ src/
-
-# Copy the app boostrapper
-COPY run.py .
+COPY src/ /app/src/
 
 # Expose the application port
 EXPOSE 5000
 
 # Command to run the app (e.g., a Flask app)
-CMD ["python", "run.py"]
+CMD ["python", "app/src/wsgi.py"]

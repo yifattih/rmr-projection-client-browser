@@ -1,8 +1,8 @@
 from typing import TypeAlias
 from flask import Flask, Response, render_template, request, jsonify
-from src import app
-from src.bmr import model
+from bmr import model
 
+app = Flask(__name__)
 
 JSONType: TypeAlias = dict[str, str | None]
 number: TypeAlias = int | float
@@ -16,7 +16,7 @@ def process_data_in(data: JSONType) -> dict[str, str | number]:
     processed_data_in = {}
     for key, value in data.items():
         try:
-            value = float(value)
+            value = float(value)  # type: ignore
         except Exception:
             pass
         processed_data_in.update({key: value})
@@ -51,7 +51,7 @@ def model_construct() -> Response:
     # Get data from AJAX request
     data_in = request.json
     try:
-        data_in = process_data_in(data=data_in)
+        data_in = process_data_in(data=data_in)  # type: ignore
     except:
         response = {"message": "Data Input Conversion",
                     "status": "Failed!",
@@ -59,7 +59,7 @@ def model_construct() -> Response:
     
     try:
         # Calculate output from model
-        model_engine = model.Builder(data=data_in)
+        model_engine = model.Builder(data=data_in)  # type: ignore
         model_engine.build()
         model_engine.calculate()
         data_output = model_engine.jasonable_dict()

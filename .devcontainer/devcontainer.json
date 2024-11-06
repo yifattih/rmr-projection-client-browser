@@ -21,7 +21,10 @@
 				"ecmel.vscode-html-css"
 			]
 		}
-	}
+	},
+	
+	"postStartCommand": "bash /workspaces/bmr_calculator/.devcontainer/ownerships.sh"
+
 
 	// Configure tool-specific properties.
 	// "customizations": {},

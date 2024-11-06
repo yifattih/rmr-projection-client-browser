@@ -6,6 +6,7 @@ from .helpers.equations import HarrisBenedict
 
 JSONType: TypeAlias = dict[str, str | None]
 
+
 class Builder:
     def __init__(self, data: JSONType) -> None:
         """Constructor"""
@@ -18,18 +19,21 @@ class Builder:
         self.energy_deficit = data["energy_deficit"]
         self.sex = data["sex"]
         self.time_proj = time_proj.calculate(weeks=self.weeks)
-        self.weight_proj = weight_proj.calculate(weight_initial=self.weight,
-                                                 time_projection=self.time_proj)
+        self.weight_proj = weight_proj.calculate(
+            weight_initial=self.weight, time_projection=self.time_proj
+        )
 
     def build(self) -> Exception | None:
         try:
-            self.equations = HarrisBenedict(age=self.age,
-                                            height=self.height,
-                                            weight=self.weight,
-                                            time_projection=self.time_proj,
-                                            units=self.units,
-                                            weight_loss_rate=self.weight_loss_rate,
-                                            energy_deficit=self.energy_deficit)
+            self.equations = HarrisBenedict(
+                age=self.age,
+                height=self.height,
+                weight=self.weight,
+                time_projection=self.time_proj,
+                units=self.units,
+                weight_loss_rate=self.weight_loss_rate,
+                energy_deficit=self.energy_deficit,
+            )
         except Exception as e:
             return e
 
@@ -37,18 +41,20 @@ class Builder:
         if self.sex == "men":
             self.bmr, self.bmr_deficit = self.equations.men_eq()
         else:
-           self.bmr, self.bmr_deficit = self.equations.female_eq()
-    
+            self.bmr, self.bmr_deficit = self.equations.female_eq()
+
     def jasonable_dict(self) -> dict:
-        return {"age": self.age,
-                "height": self.height,
-                "weight": self.weight,
-                "weeks": self.weeks,
-                "units": self.units,
-                "weight_loss_rate": self.weight_loss_rate,
-                "energy_deficit": self.energy_deficit,
-                "sex": self.sex,
-                "time_projected": self.time_proj.tolist(),
-                "weight_proj": self.weight_proj.tolist(),
-                "bmr": np.round(self.bmr, 0).tolist(),
-                "bmr_deficit": np.round(self.bmr_deficit, 0).tolist()}
+        return {
+            "age": self.age,
+            "height": self.height,
+            "weight": self.weight,
+            "weeks": self.weeks,
+            "units": self.units,
+            "weight_loss_rate": self.weight_loss_rate,
+            "energy_deficit": self.energy_deficit,
+            "sex": self.sex,
+            "time_projected": self.time_proj.tolist(),
+            "weight_proj": self.weight_proj.tolist(),
+            "bmr": np.round(self.bmr, 0).tolist(),
+            "bmr_deficit": np.round(self.bmr_deficit, 0).tolist(),
+        }

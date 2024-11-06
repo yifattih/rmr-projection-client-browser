@@ -6,11 +6,13 @@ services:
     volumes:
       - ../..:/workspaces:cached      
     command: sleep infinity
+    ports:
+      - "5000:5000"
 
-  # app:
-  #   build:
-  #     context: app
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - ../..:/workspaces:cached         # Mount source code for hot-reloading if desired
-  #   network_mode: service:devcontainer   # Puts app and devcontainer in the same network so browsing http://127.0.0.1:5000 works
+  app:
+    build:
+      context: app
+      dockerfile: Dockerfile
+    volumes:
+      - ../..:/workspaces:cached         # Mount source code for hot-reloading if desired
+    network_mode: service:devcontainer   # Puts app and devcontainer in the same network so browsing http://127.0.0.1:5000 works

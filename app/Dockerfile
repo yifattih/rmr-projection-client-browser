@@ -18,7 +18,7 @@ COPY src/ src/
 COPY run.py .
 
 # Expose the application port
-# EXPOSE 5000
+EXPOSE 5000
 
 # Command to run the app (e.g., a Flask app)
 CMD ["python", "run.py"]

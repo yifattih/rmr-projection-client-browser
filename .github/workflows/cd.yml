@@ -86,7 +86,7 @@ jobs:
 
       - name: Build and Push Docker Image to Container Registry
         run: |
-          IMAGE_NAME="gcr.io/${{ secrets.GCP_PROJECT_ID }}/bmr-calculator"
+          IMAGE_NAME="gcr.io/${{ secrets.GCP_PROJECT_ID }}"
           IMAGE_TAG="${{ github.sha }}"
           docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ./app
           docker push ${IMAGE_NAME}:${IMAGE_TAG}
@@ -94,7 +94,7 @@ jobs:
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy my-app-staging \
-            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/bmr-caculator:${IMAGE_TAG} \
+            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}:${IMAGE_TAG} \
             --platform managed \
             --region us-central1 \
             --allow-unauthenticated \

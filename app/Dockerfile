@@ -17,6 +17,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the app code into the container
 COPY src/ /app/src/
 
+# Create port environment variable
+ENV PORT 5000
+
 # Expose the application port
 EXPOSE 5000
 

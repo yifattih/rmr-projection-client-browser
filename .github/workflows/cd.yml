@@ -1,12 +1,11 @@
----
-name: CI Pipeline
+name: CD Pipeline
 
 on:
   push:
     branches:
-      - 'feat/**'
-      - '!feat/**-poc'
-  # pull_request:
+      - main
+      - dev
+  pull_request:
 
 jobs:
   build-test:
@@ -60,10 +59,51 @@ jobs:
           files: ./coverage.xml
           flags: unittests
           verbose: true
-          
 
       # Step 8: Run SonarCloud analysis
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v3.1.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  deploy-to-staging:
+    name: Deployig to Staging
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2.1.7
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+      
+      - name: Set up gcloud Cloud SDK environment
+        uses: google-github-actions/setup-gcloud@v2.1.2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+
+
+      - name: Build and Push Docker Image to Container Registry
+        run: |
+          IMAGE_NAME="gcr.io/${{ secrets.GCP_PROJECT_ID }}/bmr-calculator"
+          IMAGE_TAG="${{ github.sha }}"
+          docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
+          docker push ${IMAGE_NAME}:${IMAGE_TAG}
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy my-app-staging \
+            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/bmr-caculator:${IMAGE_TAG} \
+            --platform managed \
+            --region us-central1 \
+            --allow-unauthenticated \
+            --project ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Output the Cloud Run URL
+        run: |
+          echo "Cloud Run URL:"
+          gcloud run services describe my-app-staging --platform managed --region us-central1 \
+            --format 'value(status.url)'

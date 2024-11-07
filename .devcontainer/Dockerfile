@@ -6,7 +6,10 @@ FROM mcr.microsoft.com/devcontainers/python:1-3.12-bullseye
 # RUN apt-get update && apt-get upgrade -y && apt-get install -y
 
 # # Set the working directory
-WORKDIR /workspaces/build_artifacts
+WORKDIR /workspaces
+
+# Update pip
+RUN pip install --upgrade pip
 
 # Install additional Python dependencies if needed
 COPY requirements.txt .

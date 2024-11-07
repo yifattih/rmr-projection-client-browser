@@ -11,7 +11,7 @@ on:
 
 jobs:
   build-test:
-    name: Build, Format, Lint, Test, and Report
+    name: Bld, Format, Lint, Test, Report
     runs-on: ubuntu-latest
 
     steps:
@@ -44,7 +44,7 @@ jobs:
       # Step 5: Run code linting with Flake8
       - name: Lint code with Flake8
         run: |
-          flake8 . --max-line-length=79
+          flake8 . -v
 
       # Step 6: Run unit tests and generate a coverage report
       - name: Run tests with Pytest and generate coverage report

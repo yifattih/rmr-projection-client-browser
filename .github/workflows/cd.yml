@@ -88,6 +88,7 @@ jobs:
         run: |
           IMAGE_NAME="gcr.io/${{ secrets.GCP_PROJECT_ID }}/bmr-calculator"
           IMAGE_TAG="${{ github.sha }}"
+          gcloud auth configure-docker
           docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ./app
           docker push ${IMAGE_NAME}:${IMAGE_TAG}
 

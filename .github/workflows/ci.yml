@@ -10,7 +10,8 @@ on:
   pull_request:
 
 jobs:
-  build-and-test:
+  build-test:
+    name: Build, Format, Lint, Test, and Report
     runs-on: ubuntu-latest
 
     steps:
@@ -34,6 +35,11 @@ jobs:
       - name: Check code formatting with Black
         run: |
           black --check .
+
+      # Step 4: Run code formatting check with Black
+      - name: Formatting with Black
+        run: |
+          black .
 
       # Step 5: Run code linting with Flake8
       - name: Lint code with Flake8

@@ -132,20 +132,16 @@ jobs:
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-      # - name: Get current date
-      #   id: date
-      #   run: echo "DATE=$(date '+%Y-%m-%d-%H-%M')" >> $GITHUB_ENV
-
       - name: Build and Push Docker Image to Container Registry
         run: |
-          image=${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ needs.build-test.outputs.IMAGE_VERSION }}
+          image=${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-v${{ needs.build-test.outputs.IMAGE_VERSION }}
           gcloud auth configure-docker
           docker build -t $image ./app
           docker push $image
 
       - name: Deploy to Cloud Run
         run: |
-          image=${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ needs.build-test.outputs.IMAGE_VERSION }}
+          image=${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-v${{ needs.build-test.outputs.IMAGE_VERSION }}
           gcloud run deploy ${{ env.SERVICE_NAME }} \
             --image $image \
             --platform managed \
@@ -156,5 +152,5 @@ jobs:
       - name: Output the Cloud Run URL
         run: |
           echo "Cloud Run URL:"
-          gcloud run services describe bmr-calculator-staging --platform managed --region us-central1 \
+          gcloud run services describe ${{ env.SERVICE_NAME }} --platform managed --region us-central1 \
             --format 'value(status.url)'

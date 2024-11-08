@@ -6,7 +6,7 @@ This is a **single-page web application** designed to calculate and visualize Ba
 ### Access the App
 ---
 
-You can try out the BMR Calculator through this link: [BMR Calculator Web App](https://bmr-calculator-staging-su5szaksaq-uc.a.run.app)
+You can try out the BMR Calculator through this link: [BMR Calculator Web App](https://bmr-calculator-366291964646.us-central1.run.app)
 
 ## Features
 ---

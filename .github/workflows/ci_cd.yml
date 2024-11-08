@@ -17,6 +17,9 @@ jobs:
 
     outputs:
       IMAGE_VERSION: ${{ steps.semver.outputs.version }}
+    
+    permissions:
+      contents: write
 
     steps:
       # Step 1: Check out the code from the repository

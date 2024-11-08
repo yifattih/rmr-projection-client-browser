@@ -23,18 +23,13 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      
-      # Testing: Print dir tree to find then the requirements.txt file for development env
-      - name: Print directory tree
-        run: |
-          sudo apt-get install tree -y
-          tree
 
       # Step 3: Install dependencies (app, dev, and testing dependencies)
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install numpy Flask pytest pytest-cov flake8 black coverage  # Dev/testing dependencies
+          pip install -r app/requirements.txt # app dependencies
+          pip install pytest pytest-cov flake8 black coverage  # dev/testing dependencies
 
       # Step 4: Run code formatting check with Black
       - name: Check code formatting with Black

@@ -18,10 +18,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY src/ /app/src/
 
 # Create port environment variable
-ENV PORT 8080
+ENV PORT 5000
 
 # Expose the application port
-EXPOSE 8080
+EXPOSE 5000
 
 # Command to run the app (e.g., a Flask app)
 CMD ["python", "src/wsgi.py"]

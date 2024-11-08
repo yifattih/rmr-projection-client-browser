@@ -1,6 +1,7 @@
 name: CI/CD Pipeline
 
 env:
+    SERVICE_NAME: bmr-calculator
     IMAGE_NAME: "gcr.io/${{ secrets.GCP_PROJECT_ID }}/bmr-calculator"
     IMAGE_TAG: staging
 
@@ -13,6 +14,9 @@ jobs:
   build-test:
     name: Bld, Format, Lint, Test, Report
     runs-on: ubuntu-latest
+
+    outputs:
+      IMAGE_VERSION: ${{ steps.semver.outputs.version }}
 
     steps:
       # Step 1: Check out the code from the repository
@@ -29,12 +33,13 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          pip install -r app/requirements.txt # app dependencies
           pip install numpy Flask pytest pytest-cov flake8 black coverage  # Dev/testing dependencies
 
       # Step 4: Run code formatting check with Black
       - name: Check code formatting with Black
         run: |
-          black --check .
+          black --diff .
 
       # Step 4: Run code formatting check with Black
       - name: Formatting with Black
@@ -68,9 +73,45 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
+      # Step 9: Create git tag
+      - name: Bump version and create Git tag
+        id: semver
+        uses: huggingface/semver-release-action@v1.1.0
+        with:
+          dryRun: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+      # Step 10: Update version in code
+      - name: Update version in code
+        run: |
+          NEW_VERSION="${{ steps.semver.outputs.version }}"
+          sed -i "s/__version__ = .*/__version__ = \"${NEW_VERSION}\"/" app/__init__.py
+
+      # Step 11: Commit code with new version
+      - name: Commit version bump
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "chore(release): Bump version to ${{ steps.semver.outputs.version }}"
+          branch: main
+          file_pattern: app/__init__.py
+
+      # Step 12: Create release
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.semver.outputs.version }}
+          release_name: "Release ${{ steps.semver.outputs.version }}"
+          body: "Automated release for version ${{ steps.semver.outputs.version }}."
+          draft: false
+          prerelease: false
+
   deploy-to-staging:
     name: Deployig to Staging
     runs-on: ubuntu-latest
+    needs: build-test
 
     steps:
       - name: Check out repository
@@ -92,14 +133,16 @@ jobs:
 
       - name: Build and Push Docker Image to Container Registry
         run: |
+          image=${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ needs.build-test.outputs.IMAGE_VERSION }}
           gcloud auth configure-docker
-          docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-$DATE ./app
-          docker push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-$DATE
+          docker build -t $image ./app
+          docker push $image
 
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy bmr-calculator \
-            --image ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-$DATE \
+          image=${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ needs.build-test.outputs.IMAGE_VERSION }}
+          gcloud run deploy ${{ env.SERVICE_NAME }} \
+            --image $image \
             --platform managed \
             --region us-central1 \
             --allow-unauthenticated \

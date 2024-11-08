@@ -1,12 +1,14 @@
----
-name: CI Pipeline
+name: CI/CD Pipeline
+
+env:
+    SERVICE_NAME: bmr-calculator
+    IMAGE_NAME: "gcr.io/${{ secrets.GCP_PROJECT_ID }}/bmr-calculator"
+    IMAGE_TAG: staging
 
 on:
   push:
     branches:
-      - dev
-      - 'feat/**'
-      - '!feat/**-poc'
+      - main
 
 jobs:
   build-test:
@@ -22,7 +24,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.12.7'
 
       # Step 3: Install dependencies (app, dev, and testing dependencies)
       - name: Install dependencies
@@ -60,10 +62,48 @@ jobs:
           files: ./coverage.xml
           flags: unittests
           verbose: true
-          
 
       # Step 8: Run SonarCloud analysis
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v3.1.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  deploy-to-staging:
+    name: Deployig to Staging
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2.1.7
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+      
+      - name: Set up gcloud Cloud SDK environment
+        uses: google-github-actions/setup-gcloud@v2.1.2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Build and Push Docker Image to Container Registry
+        run: |
+          gcloud auth configure-docker
+          docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ./app
+          docker push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy ${{ env.SERVICE_NAME }} \
+            --image ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+            --platform managed \
+            --region us-central1 \
+            --allow-unauthenticated \
+            --project ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Output the Cloud Run URL
+        run: |
+          echo "Cloud Run URL:"
+          gcloud run services describe bmr-calculator-staging --platform managed --region us-central1 \
+            --format 'value(status.url)'

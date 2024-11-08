@@ -81,7 +81,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       # Step 9: Create git tag
-      - name: Bump version and create Git tag
+      - name: Create Git tag
         id: semver
         uses: huggingface/semver-release-action@v1.1.0
         with:
@@ -92,14 +92,14 @@ jobs:
       # Step 10: Update version in code
       - name: Update version in code
         run: |
-          NEW_VERSION="${{ steps.semver.outputs.version }}"
+          NEW_VERSION=${{ steps.semver.outputs.version }}
           sed -i "s/__version__ = .*/__version__ = \"${NEW_VERSION}\"/" app/src/__init__.py
 
       # Step 11: Commit code with new version
       - name: Commit version bump
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: "Bump version to ${{ steps.semver.outputs.version }}"
+          commit_message: "Bumping version: ${{ steps.semver.outputs.version }}"
           branch: ${{ github.ref_name }}
           file_pattern: app/src/__init__.py
 

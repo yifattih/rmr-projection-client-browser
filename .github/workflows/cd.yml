@@ -3,8 +3,6 @@ name: CD/CD Pipeline
 env:
     IMAGE_NAME: "gcr.io/${{ secrets.GCP_PROJECT_ID }}/bmr-calculator"
     IMAGE_TAG: staging
-    # IMAGE_TAG: "${/{ github.sha }}"
-
 
 on:
   push:
@@ -94,8 +92,6 @@ jobs:
 
       - name: Build and Push Docker Image to Container Registry
         run: |
-          # IMAGE_NAME="gcr.io/${{ secrets.GCP_PROJECT_ID }}/bmr-calculator"
-          # IMAGE_TAG="${{ github.sha }}"
           gcloud auth configure-docker
           docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ./app
           docker push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}

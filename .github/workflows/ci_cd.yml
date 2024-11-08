@@ -9,8 +9,6 @@ on:
   push:
     branches:
       - main
-      - alpha
-      - beta
 
 jobs:
   build-test:
@@ -85,7 +83,6 @@ jobs:
         id: semver
         uses: huggingface/semver-release-action@v1.1.0
         with:
-          branches: ["main", {"name": "alpha", "prerelease": true}, {"name": "beta", "prerelease": true}]
           dryRun: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

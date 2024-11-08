@@ -2,7 +2,7 @@ name: CI/CD Pipeline
 
 env:
     IMAGE_NAME: "gcr.io/${{ secrets.GCP_PROJECT_ID }}/bmr-calculator"
-    IMAGE_TAG: staging-${{ github.sha }}
+    IMAGE_TAG: staging
 
 on:
   push:
@@ -86,16 +86,20 @@ jobs:
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d-%T')"
+
       - name: Build and Push Docker Image to Container Registry
         run: |
           gcloud auth configure-docker
-          docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ./app
-          docker push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ steps.date.outputs.date }} ./app
+          docker push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}-${{ steps.date.outputs.date }}
 
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy bmr-calculator \
-            --image ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+            --image ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}${{ steps.date.outputs.date }} \
             --platform managed \
             --region us-central1 \
             --allow-unauthenticated \

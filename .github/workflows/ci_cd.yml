@@ -9,6 +9,8 @@ on:
   push:
     branches:
       - main
+      - alpha
+      - beta
 
 jobs:
   build-test:
@@ -89,7 +91,7 @@ jobs:
       - name: Update version in code
         run: |
           NEW_VERSION="${{ steps.semver.outputs.version }}"
-          sed -i "s/__version__ = .*/__version__ = \"${NEW_VERSION}\"/" app/__init__.py
+          sed -i "s/__version__ = .*/__version__ = \"${NEW_VERSION}\"/" app/src/__init__.py
 
       # Step 11: Commit code with new version
       - name: Commit version bump
@@ -97,7 +99,7 @@ jobs:
         with:
           commit_message: "chore(release): Bump version to ${{ steps.semver.outputs.version }}"
           branch: main
-          file_pattern: app/__init__.py
+          file_pattern: app/src/__init__.py
 
       # Step 12: Create release
       - name: Create GitHub Release
@@ -130,9 +132,9 @@ jobs:
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-      - name: Get current date
-        id: date
-        run: echo "DATE=$(date '+%Y-%m-%d-%H-%M')" >> $GITHUB_ENV
+      # - name: Get current date
+      #   id: date
+      #   run: echo "DATE=$(date '+%Y-%m-%d-%H-%M')" >> $GITHUB_ENV
 
       - name: Build and Push Docker Image to Container Registry
         run: |

@@ -34,7 +34,7 @@ jobs:
       # Step 4: Run code formatting check with Black
       - name: Check code formatting with Black
         run: |
-          black --check .
+          black --diff .
 
       # Step 4: Run code formatting check with Black
       - name: Formatting with Black

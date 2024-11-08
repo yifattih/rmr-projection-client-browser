@@ -4,9 +4,9 @@ name: CI Pipeline
 on:
   push:
     branches:
+      - dev
       - 'feat/**'
       - '!feat/**-poc'
-  # pull_request:
 
 jobs:
   build-test:
@@ -22,7 +22,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12.7'
+          python-version: '3.12'
 
       # Step 3: Install dependencies (app, dev, and testing dependencies)
       - name: Install dependencies

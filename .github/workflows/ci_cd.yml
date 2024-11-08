@@ -1,6 +1,7 @@
-name: CD/CD Pipeline
+name: CI/CD Pipeline
 
 env:
+    SERVICE_NAME: bmr-calculator
     IMAGE_NAME: "gcr.io/${{ secrets.GCP_PROJECT_ID }}/bmr-calculator"
     IMAGE_TAG: staging
 
@@ -8,13 +9,9 @@ on:
   push:
     branches:
       - main
-      - dev
-  pull_request:
 
 jobs:
   build-test:
-    env:
-        JAVA_VERSION: '21'
     name: Bld, Format, Lint, Test, Report
     runs-on: ubuntu-latest
 
@@ -98,7 +95,7 @@ jobs:
 
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy bmr-calculator-staging \
+          gcloud run deploy ${{ env.SERVICE_NAME }} \
             --image ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
             --platform managed \
             --region us-central1 \

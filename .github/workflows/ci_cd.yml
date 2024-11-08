@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 env:
     SERVICE_NAME: bmr-calculator
     IMAGE_NAME: "gcr.io/${{ secrets.GCP_PROJECT_ID }}/bmr-calculator"
-    IMAGE_TAG: staging
+    IMAGE_TAG: staging-${{ github.sha }}
 
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12.7'
+          python-version: '3.12'
 
       # Step 3: Install dependencies (app, dev, and testing dependencies)
       - name: Install dependencies

@@ -52,7 +52,6 @@ The app leverages a streamlined DevOps pipeline to ensure seamless development, 
 This project is licensed under the MIT License. See the `LICENSE` file for more details.
 
 
-![CI Pipeline Status](https://img.shields.io/github/actions/workflow/status/yifattih/bmr_calculator/ci.yml)
-![CD/CD Pipeline Status](https://img.shields.io/github/actions/workflow/status/yifattih/bmr_calculator/ci_cd.yml)
+![Build Status](https://img.shields.io/github/actions/workflow/status/yifattih/bmr_calculator/ci_cd.yml)
 ![Codecov](https://img.shields.io/codecov/c/gh/yifattih/bmr_calculator)
 ![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/yifattih_bmr_calculator?server=https%3A%2F%2Fsonarcloud.io)

@@ -1,6 +1,6 @@
 services:
   devcontainer:
-    container_name: development-service-webapp
+    container_name: development-env
     build: 
       context: .devcontainer
       dockerfile: Dockerfile
@@ -13,7 +13,7 @@ services:
       - "4000:4000"
 
   app:
-    container_name: webapp-service
+    container_name: app
     build:
       context: app
       dockerfile: Dockerfile
